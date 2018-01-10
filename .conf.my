@@ -68,6 +68,7 @@ case $which_config in
                 --enable-busmouse \
                 --enable-plugins \
                 --enable-show-ips \
+                --enable-debugger \
                 --with-all-libs \
                 ${CONFIGURE_ARGS}
     ;;
