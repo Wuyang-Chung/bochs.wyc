@@ -47,7 +47,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
 #endif
         BX_ERROR(("load_seg_reg(SS): loading null selector"));
         exception(BX_GP_EXCEPTION, new_value & 0xfffc);
-      }
+      } // if ((new_value
 
       fetch_raw_descriptor(&ss_selector, &dword1, &dword2, BX_GP_EXCEPTION);
 
@@ -94,7 +94,7 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       invalidate_stack_cache();
 
       return;
-    }
+    } //if BX_SEG_REG_SS
     else if ((seg==&BX_CPU_THIS_PTR sregs[BX_SEG_REG_DS]) ||
              (seg==&BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES]) ||
              (seg==&BX_CPU_THIS_PTR sregs[BX_SEG_REG_FS]) ||
@@ -153,12 +153,12 @@ BX_CPU_C::load_seg_reg(bx_segment_reg_t *seg, Bit16u new_value)
       seg->cache.valid = SegValidCache;
 
       return;
-    }
+    } //else if BX_SEG_REG_DS, BX_SEG_REG_ES, BX_SEG_REG_FS, BX_SEG_REG_GS
     else {
       BX_PANIC(("load_seg_reg(): invalid segment register passed!"));
       return;
     }
-  }
+  } //if (protected_mode())
 
   /* real or v8086 mode */
 

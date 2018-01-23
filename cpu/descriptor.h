@@ -120,30 +120,30 @@ typedef struct
 #define BX_CODE_EXEC_READ_CONFORMING            (0xe)
 #define BX_CODE_EXEC_READ_CONFORMING_ACCESSED   (0xf)
 
-union {
-  struct {
-    bx_address base;       /* base address: 286=24bits, 386=32bits, long=64 */
-    Bit32u  limit_scaled;  /* for efficiency, this contrived field is set to
-                            * limit for byte granular, and
-                            * (limit << 12) | 0xfff for page granular seg's
-                            */
-    bx_bool g;             /* granularity: 0=byte, 1=4K (page) */
-    bx_bool d_b;           /* default size: 0=16bit, 1=32bit */
+  union {
+    struct {
+      bx_address base;       /* base address: 286=24bits, 386=32bits, long=64 */
+      Bit32u  limit_scaled;  /* for efficiency, this contrived field is set to
+                              * limit for byte granular, and
+                              * (limit << 12) | 0xfff for page granular seg's
+                              */
+      bx_bool g;             /* granularity: 0=byte, 1=4K (page) */
+      bx_bool d_b;           /* default size: 0=16bit, 1=32bit */
 #if BX_SUPPORT_X86_64
-    bx_bool l;             /* long mode: 0=compat, 1=64 bit */
+      bx_bool l;             /* long mode: 0=compat, 1=64 bit */
 #endif
-    bx_bool avl;           /* available for use by system */
-  } segment;
-  struct {
-    Bit8u   param_count;   /* 5bits (0..31) #words/dword to copy from caller's
-                            * stack to called procedure's stack. */
-    Bit16u  dest_selector;
-    Bit32u  dest_offset;
-  } gate;
-  struct {                 /* type 5: Task Gate Descriptor */
-    Bit16u  tss_selector;  /* TSS segment selector */
-  } taskgate;
-} u;
+      bx_bool avl;           /* available for use by system */
+    } segment;
+    struct {
+      Bit8u   param_count;   /* 5bits (0..31) #words/dword to copy from caller's
+                              * stack to called procedure's stack. */
+      Bit16u  dest_selector;
+      Bit32u  dest_offset;
+    } gate;
+    struct {                 /* type 5: Task Gate Descriptor */
+      Bit16u  tss_selector;  /* TSS segment selector */
+    } taskgate;
+  } u;
 
 } bx_descriptor_t;
 

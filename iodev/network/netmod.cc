@@ -54,7 +54,7 @@ void* bx_netmod_ctl_c::init_module(bx_list_c *base, void *rxh, void *rxstat, bx_
   eth_pktmover_c *ethmod;
 
   // Attach to the selected ethernet module
-  const char *modname = SIM->get_param_enum("ethmod", base)->get_selected();
+  const char *modname = SIM->get_param_enum("ethmod", base)->get_selected(); //tuntap
   if (!eth_locator_c::module_present(modname)) {
 #if BX_PLUGINS
     PLUG_load_net_plugin(modname);
@@ -62,8 +62,8 @@ void* bx_netmod_ctl_c::init_module(bx_list_c *base, void *rxh, void *rxstat, bx_
     BX_PANIC(("could not find networking module '%s'", modname));
 #endif
   }
-  ethmod = eth_locator_c::create(modname,
-                                 SIM->get_param_string("ethdev", base)->getptr(),
+  ethmod = eth_locator_c::create(modname, //tuntap
+                                 SIM->get_param_string("ethdev", base)->getptr(), // /dev/net/tun
                                  (const char *) SIM->get_param_string("mac", base)->getptr(),
                                  (eth_rx_handler_t)rxh, (eth_rx_status_t)rxstat, netdev,
                                  SIM->get_param_string("script", base)->getptr());
@@ -109,11 +109,13 @@ eth_locator_c::~eth_locator_c()
       } else {
         break;
       }
+    } //while
+    if (ptr) {
+      ptr->next = this->next;
+    } else {
+      //todo
     }
-  }
-  if (ptr) {
-    ptr->next = this->next;
-  }
+  } // if (this
 }
 
 bx_bool eth_locator_c::module_present(const char *type)
@@ -146,7 +148,7 @@ eth_locator_c::create(const char *type, const char *netif,
                       eth_rx_handler_t rxh, eth_rx_status_t rxstat,
                       bx_devmodel_c *dev, const char *script)
 {
-  eth_locator_c *ptr = 0;
+  eth_locator_c *ptr;
 
   for (ptr = all; ptr != NULL; ptr = ptr->next) {
     if (strcmp(type, ptr->type) == 0)

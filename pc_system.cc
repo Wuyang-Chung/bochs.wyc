@@ -154,7 +154,7 @@ void bx_pc_system_c::set_enable_a20(bx_bool value)
   // they can potentially invalidate certain cache info based on
   // A20-line-applied physical addresses.
   if (old_enable_a20 != enable_a20) MemoryMappingChanged();
-#else
+#else // !BX_SUPPORT_A20
   BX_DEBUG(("set_enable_a20: ignoring: BX_SUPPORT_A20 = 0"));
 #endif
 }
