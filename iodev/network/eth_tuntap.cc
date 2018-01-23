@@ -135,7 +135,7 @@ bx_tuntap_pktmover_c::bx_tuntap_pktmover_c(const char *netif,
   int flags;
 
   this->netdev = dev;
-#ifdef NEVERDEF
+#ifdef NEVERDEF //wyc never defined??
   if (strncmp (netif, "tun", 3) != 0) {
     BX_PANIC(("eth_tuntap: interface name (%s) must be tun", netif));
   }
@@ -175,7 +175,8 @@ bx_tuntap_pktmover_c::bx_tuntap_pktmover_c(const char *netif,
 
   fd = open (filename, O_RDWR);
 #endif
-  char intname[IFNAMSIZ];
+  //char intname[IFNAMSIZ];
+  char intname[strlen(netif)+1]; //wyc
   strcpy(intname,netif);
   fd=tun_alloc(intname);
   if (fd < 0) {
@@ -260,8 +261,8 @@ void bx_tuntap_pktmover_c::sendpkt(void *buf, unsigned io_len)
   }
 #else
   unsigned int size = write (fd, buf, io_len);
-  if (size != io_len) {
-    BX_PANIC(("write on tuntap device: %s", strerror (errno)));
+  if (size != io_len) { //wyc size == -1
+    BX_PANIC(("write on tuntap device: %s %d %d", strerror(errno), size, io_len));
   } else {
     BX_DEBUG(("wrote %d bytes on tuntap", io_len));
   }
@@ -387,10 +388,10 @@ int tun_alloc(char *dev)
     close(fd);
     return err;
   }
-  strncpy(dev, ifr.ifr_name, IFNAMSIZ);
-  dev[IFNAMSIZ-1]=0;
+  //wyc strncpy(dev, ifr.ifr_name, IFNAMSIZ);
+  //wyc dev[IFNAMSIZ-1]=0;
 
-  ioctl(fd, TUNSETNOCSUM, 1);
+  //ioctl(fd, TUNSETNOCSUM, 1); //wyc TUNSETNOCSUM is not implemented in current Linux kernel
 #endif
 
   return fd;
