@@ -205,8 +205,8 @@ LT_GLOBAL_DATA void   (*lt_dlfree)	LT_PARAMS((lt_ptr ptr))
 static char *strdup LT_PARAMS((const char *str));
 
 char *
-strdup(str)
-     const char *str;
+strdup(
+     const char *str)
 {
   char *tmp = 0;
 
@@ -231,9 +231,9 @@ strdup(str)
 static int strcmp LT_PARAMS((const char *str1, const char *str2));
 
 int
-strcmp (str1, str2)
-     const char *str1;
-     const char *str2;
+strcmp (
+     const char *str1,
+     const char *str2)
 {
   if (str1 == str2)
     return 0;
@@ -382,9 +382,9 @@ memmove (dest, src, size)
 #define realloc rpl_realloc
 
 lt_ptr
-realloc (ptr, size)
-     lt_ptr ptr;
-     size_t size;
+realloc (
+     lt_ptr ptr,
+     size_t size)
 {
   if (size <= 0)
     {
@@ -770,11 +770,11 @@ static	const char	    *lt_dllast_error	      = 0;
    The registered functions should be manipulating a static global lock
    from the lock() and unlock() callbacks, which needs to be reentrant.  */
 int
-lt_dlmutex_register (lock, unlock, seterror, geterror)
-     lt_dlmutex_lock *lock;
-     lt_dlmutex_unlock *unlock;
-     lt_dlmutex_seterror *seterror;
-     lt_dlmutex_geterror *geterror;
+lt_dlmutex_register (
+     lt_dlmutex_lock *lock,
+     lt_dlmutex_unlock *unlock,
+     lt_dlmutex_seterror *seterror,
+     lt_dlmutex_geterror *geterror)
 {
   lt_dlmutex_unlock *old_unlock = unlock;
   int		     errors	= 0;
@@ -815,8 +815,8 @@ static	const char    **user_error_strings	= 0;
 static	int		errorcount		= LT_ERROR_MAX;
 
 int
-lt_dladderror (diagnostic)
-     const char *diagnostic;
+lt_dladderror (
+     const char *diagnostic)
 {
   int		errindex = 0;
   int		result	 = -1;
@@ -841,8 +841,8 @@ lt_dladderror (diagnostic)
 }
 
 int
-lt_dlseterror (errindex)
-     int errindex;
+lt_dlseterror (
+     int errindex)
 {
   int		errors	 = 0;
 
@@ -871,8 +871,8 @@ lt_dlseterror (errindex)
 }
 
 lt_ptr
-lt_emalloc (size)
-     size_t size;
+lt_emalloc (
+     size_t size)
 {
   lt_ptr mem = lt_dlmalloc (size);
   if (size && !mem)
@@ -881,9 +881,9 @@ lt_emalloc (size)
 }
 
 lt_ptr
-lt_erealloc (addr, size)
-     lt_ptr addr;
-     size_t size;
+lt_erealloc (
+     lt_ptr addr,
+     size_t size)
 {
   lt_ptr mem = realloc (addr, size);
   if (size && !mem)
@@ -892,8 +892,8 @@ lt_erealloc (addr, size)
 }
 
 char *
-lt_estrdup (str)
-     const char *str;
+lt_estrdup (
+     const char *str)
 {
   char *dup = strdup (str);
   if (LT_STRLEN (str) && !dup)
@@ -965,9 +965,9 @@ lt_estrdup (str)
 #endif
 
 static lt_module
-sys_dl_open (loader_data, filename)
-     lt_user_data loader_data;
-     const char *filename;
+sys_dl_open (
+     lt_user_data loader_data,
+     const char *filename)
 {
   lt_module   module   = dlopen (filename, LT_GLOBAL | LT_LAZY_OR_NOW);
 
@@ -980,9 +980,9 @@ sys_dl_open (loader_data, filename)
 }
 
 static int
-sys_dl_close (loader_data, module)
-     lt_user_data loader_data;
-     lt_module module;
+sys_dl_close (
+     lt_user_data loader_data,
+     lt_module module)
 {
   int errors = 0;
 
@@ -996,10 +996,10 @@ sys_dl_close (loader_data, module)
 }
 
 static lt_ptr
-sys_dl_sym (loader_data, module, symbol)
-     lt_user_data loader_data;
-     lt_module module;
-     const char *symbol;
+sys_dl_sym (
+     lt_user_data loader_data,
+     lt_module module,
+     const char *symbol)
 {
   lt_ptr address = dlsym (module, symbol);
 
@@ -1487,8 +1487,8 @@ static	const lt_dlsymlist     *default_preloaded_symbols	= 0;
 static	lt_dlsymlists_t	       *preloaded_symbols		= 0;
 
 static int
-presym_init (loader_data)
-     lt_user_data loader_data;
+presym_init (
+     lt_user_data loader_data)
 {
   int errors = 0;
 
@@ -1528,16 +1528,16 @@ presym_free_symlists ()
 }
 
 static int
-presym_exit (loader_data)
-     lt_user_data loader_data;
+presym_exit (
+     lt_user_data loader_data)
 {
   presym_free_symlists ();
   return 0;
 }
 
 static int
-presym_add_symlist (preloaded)
-     const lt_dlsymlist *preloaded;
+presym_add_symlist (
+     const lt_dlsymlist *preloaded)
 {
   lt_dlsymlists_t *tmp;
   lt_dlsymlists_t *lists;
@@ -1574,9 +1574,9 @@ presym_add_symlist (preloaded)
 }
 
 static lt_module
-presym_open (loader_data, filename)
-     lt_user_data loader_data;
-     const char *filename;
+presym_open (
+     lt_user_data loader_data,
+     const char *filename)
 {
   lt_dlsymlists_t *lists;
   lt_module	   module = (lt_module) 0;
@@ -1624,9 +1624,9 @@ presym_open (loader_data, filename)
 }
 
 static int
-presym_close (loader_data, module)
-     lt_user_data loader_data;
-     lt_module module;
+presym_close (
+     lt_user_data loader_data,
+     lt_module module)
 {
   /* Just to silence gcc -Wall */
   module = 0;
@@ -1634,10 +1634,10 @@ presym_close (loader_data, module)
 }
 
 static lt_ptr
-presym_sym (loader_data, module, symbol)
-     lt_user_data loader_data;
-     lt_module module;
-     const char *symbol;
+presym_sym (
+     lt_user_data loader_data,
+     lt_module module,
+     const char *symbol)
 {
   lt_dlsymlist *syms = (lt_dlsymlist*) module;
 
@@ -1778,8 +1778,8 @@ lt_dlinit ()
 }
 
 int
-lt_dlpreload (preloaded)
-     const lt_dlsymlist *preloaded;
+lt_dlpreload (
+     const lt_dlsymlist *preloaded)
 {
   int errors = 0;
 
@@ -1803,8 +1803,8 @@ lt_dlpreload (preloaded)
 }
 
 int
-lt_dlpreload_default (preloaded)
-     const lt_dlsymlist *preloaded;
+lt_dlpreload_default (
+     const lt_dlsymlist *preloaded)
 {
   LT_DLMUTEX_LOCK ();
   default_preloaded_symbols = preloaded;
@@ -1887,9 +1887,9 @@ lt_dlexit ()
 // returns number of errors, so 0=success
 // returns handle in *handle, if one is found.
 static int
-tryall_dlopen (handle, filename)
-     lt_dlhandle *handle;
-     const char *filename;
+tryall_dlopen (
+     lt_dlhandle *handle,
+     const char *filename)
 {
   lt_dlhandle	 cur;
   lt_dlloader   *loader;
@@ -1982,11 +1982,11 @@ tryall_dlopen (handle, filename)
 }
 
 static int
-tryall_dlopen_module (handle, prefix, dirname, dlname)
-     lt_dlhandle *handle;
-     const char *prefix;
-     const char *dirname;
-     const char *dlname;
+tryall_dlopen_module (
+     lt_dlhandle *handle,
+     const char *prefix,
+     const char *dirname,
+     const char *dlname)
 {
   int      error	= 0;
   char     *filename	= 0;
@@ -2040,13 +2040,13 @@ tryall_dlopen_module (handle, prefix, dirname, dlname)
 }
 
 static int
-find_module (handle, dir, libdir, dlname, old_name, installed)
-     lt_dlhandle *handle;
-     const char *dir;
-     const char *libdir;
-     const char *dlname;
-     const char *old_name;
-     int installed;
+find_module (
+     lt_dlhandle *handle,
+     const char *dir,
+     const char *libdir,
+     const char *dlname,
+     const char *old_name,
+     int installed)
 {
   /* Try to open the old library first; if it was dlpreopened,
      we want the preopened version of it, even if a dlopenable
@@ -2087,9 +2087,9 @@ find_module (handle, dir, libdir, dlname, old_name, installed)
 
 
 static int
-canonicalize_path (path, pcanonical)
-     const char *path;
-     char **pcanonical;
+canonicalize_path (
+     const char *path,
+     char **pcanonical)
 {
   char *canonical = 0;
 
@@ -2150,10 +2150,10 @@ canonicalize_path (path, pcanonical)
 }
 
 static int
-argzize_path (path, pargz, pargz_len)
-     const char *path;
-     char **pargz;
-     size_t *pargz_len;
+argzize_path (
+     const char *path,
+     char **pargz,
+     size_t *pargz_len)
 {
   error_t error;
 
@@ -2184,12 +2184,12 @@ argzize_path (path, pargz, pargz_len)
    non-zero or all elements are exhausted.  If BASE_NAME is non-NULL,
    it is appended to each SEARCH_PATH element before FUNC is called.  */
 static int
-foreach_dirinpath (search_path, base_name, func, data1, data2)
-     const char *search_path;
-     const char *base_name;
-     foreach_callback_func *func;
-     lt_ptr data1;
-     lt_ptr data2;
+foreach_dirinpath (
+     const char *search_path,
+     const char *base_name,
+     foreach_callback_func *func,
+     lt_ptr data1,
+     lt_ptr data2)
 {
   int	 result		= 0;
   int	 filenamesize	= 0;
@@ -2257,10 +2257,10 @@ foreach_dirinpath (search_path, base_name, func, data1, data2)
    in DATA1, and the opened FILE* structure address in DATA2.  Otherwise
    DATA1 is unchanged, but DATA2 is set to a pointer to NULL.  */
 static int
-find_file_callback (filename, data1, data2)
-     char *filename;
-     lt_ptr data1;
-     lt_ptr data2;
+find_file_callback (
+     char *filename,
+     lt_ptr data1,
+     lt_ptr data2)
 {
   char	     **pdir	= (char **) data1;
   FILE	     **pfile	= (FILE **) data2;
@@ -2291,10 +2291,10 @@ find_file_callback (filename, data1, data2)
 }
 
 static FILE *
-find_file (search_path, base_name, pdir)
-     const char *search_path;
-     const char *base_name;
-     char **pdir;
+find_file (
+     const char *search_path,
+     const char *base_name,
+     char **pdir)
 {
   FILE *file = 0;
 
@@ -2304,10 +2304,10 @@ find_file (search_path, base_name, pdir)
 }
 
 static int
-find_handle_callback (filename, data, ignored)
-     char *filename;
-     lt_ptr data;
-     lt_ptr ignored;
+find_handle_callback (
+     char *filename,
+     lt_ptr data,
+     lt_ptr ignored)
 {
   lt_dlhandle  *handle	= (lt_dlhandle *) data;
   int		found	= (0 == access (filename, R_OK));
@@ -2328,10 +2328,10 @@ find_handle_callback (filename, data, ignored)
 /* If HANDLE was found return it, otherwise return 0.  If HANDLE was
    found but could not be opened, *HANDLE will be set to 0.  */
 static lt_dlhandle *
-find_handle (search_path, base_name, handle)
-     const char *search_path;
-     const char *base_name;
-     lt_dlhandle *handle;
+find_handle (
+     const char *search_path,
+     const char *base_name,
+     lt_dlhandle *handle)
 {
   if (!search_path)
     return 0;
@@ -2344,9 +2344,9 @@ find_handle (search_path, base_name, handle)
 }
 
 static int
-load_deplibs (handle, deplibs)
-     lt_dlhandle handle;
-     char *deplibs;
+load_deplibs (
+     lt_dlhandle handle,
+     char *deplibs)
 {
 #if LTDL_DLOPEN_DEPLIBS
   char	*p, *save_search_path = 0;
@@ -2506,8 +2506,8 @@ load_deplibs (handle, deplibs)
 }
 
 static int
-unload_deplibs (handle)
-     lt_dlhandle handle;
+unload_deplibs (
+     lt_dlhandle handle)
 {
   int i;
   int errors = 0;
@@ -2527,9 +2527,9 @@ unload_deplibs (handle)
 }
 
 static int
-trim (dest, str)
-     char **dest;
-     const char *str;
+trim (
+     char **dest,
+     const char *str)
 {
   /* remove the leading and trailing "'" from str
      and store the result in dest */
@@ -2558,11 +2558,11 @@ trim (dest, str)
 }
 
 static int
-free_vars (dlname, oldname, libdir, deplibs)
-     char *dlname;
-     char *oldname;
-     char *libdir;
-     char *deplibs;
+free_vars (
+     char *dlname,
+     char *oldname,
+     char *libdir,
+     char *deplibs)
 {
   LT_DLFREE (dlname);
   LT_DLFREE (oldname);
@@ -2577,9 +2577,9 @@ free_vars (dlname, oldname, libdir, deplibs)
 // On success (return value=0), *phandle is changed to point to the new
 // lt_dlhandle.
 int
-try_dlopen (phandle, filename)
-     lt_dlhandle *phandle;
-     const char *filename;
+try_dlopen (
+     lt_dlhandle *phandle,
+     const char *filename)
 {
   const char *	ext		= 0;
   const char *	saved_error	= 0;
@@ -2957,8 +2957,8 @@ try_dlopen (phandle, filename)
 }
 
 lt_dlhandle
-lt_dlopen (filename)
-     const char *filename;
+lt_dlopen (
+     const char *filename)
 {
   lt_dlhandle handle = 0;
 
@@ -2995,8 +2995,8 @@ file_not_found ()
    and if a file is still not found try again with SHLIB_EXT appended
    instead.  */
 lt_dlhandle
-lt_dlopenext (filename)
-     const char *filename;
+lt_dlopenext (
+     const char *filename)
 {
   lt_dlhandle	handle		= 0;
   char *	tmp		= 0;
@@ -3095,11 +3095,11 @@ lt_dlopenext (filename)
 
 
 int
-lt_argz_insert (pargz, pargz_len, before, entry)
-     char **pargz;
-     size_t *pargz_len;
-     char *before;
-     const char *entry;
+lt_argz_insert (
+     char **pargz,
+     size_t *pargz_len,
+     char *before,
+     const char *entry)
 {
   error_t error;
 
@@ -3121,10 +3121,10 @@ lt_argz_insert (pargz, pargz_len, before, entry)
 }
 
 int
-lt_argz_insertinorder (pargz, pargz_len, entry)
-     char **pargz;
-     size_t *pargz_len;
-     const char *entry;
+lt_argz_insertinorder (
+     char **pargz,
+     size_t *pargz_len,
+     const char *entry)
 {
   char *before = 0;
 
@@ -3145,11 +3145,11 @@ lt_argz_insertinorder (pargz, pargz_len, entry)
 }
 
 int
-lt_argz_insertdir (pargz, pargz_len, dirnam, dp)
-     char **pargz;
-     size_t *pargz_len;
-     const char *dirnam;
-     struct dirent *dp;
+lt_argz_insertdir (
+     char **pargz,
+     size_t *pargz_len,
+     const char *dirnam,
+     struct dirent *dp)
 {
   char   *buf	    = 0;
   size_t buf_len    = 0;
@@ -3211,10 +3211,10 @@ lt_argz_insertdir (pargz, pargz_len, dirnam, dp)
 }
 
 int
-list_files_by_dir (dirnam, pargz, pargz_len)
-     const char *dirnam;
-     char **pargz;
-     size_t *pargz_len;
+list_files_by_dir (
+     const char *dirnam,
+     char **pargz,
+     size_t *pargz_len)
 {
   DIR	*dirp	  = 0;
   int    errors	  = 0;
@@ -3249,10 +3249,10 @@ list_files_by_dir (dirnam, pargz, pargz_len)
 /* If there are any files in DIRNAME, call the function passed in
    DATA1 (with the name of each file and DATA2 as arguments).  */
 static int
-foreachfile_callback (dirname, data1, data2)
-     char *dirname;
-     lt_ptr data1;
-     lt_ptr data2;
+foreachfile_callback (
+     char *dirname,
+     lt_ptr data1,
+     lt_ptr data2)
 {
   int (*func) LT_PARAMS((const char *filename, lt_ptr data))
 	= (int (*) LT_PARAMS((const char *filename, lt_ptr data))) data1;
@@ -3287,10 +3287,10 @@ foreachfile_callback (dirname, data1, data2)
    libfoo.so, libfoo.so.1, libfoo.so.1.0.0).  If SEARCH_PATH is NULL,
    then the same directories that lt_dlopen would search are examined.  */
 int
-lt_dlforeachfile (search_path, func, data)
-     const char *search_path;
-     int (*func) LT_PARAMS ((const char *filename, lt_ptr data));
-     lt_ptr data;
+lt_dlforeachfile (
+     const char *search_path,
+     int (*func) LT_PARAMS ((const char *filename, lt_ptr data)),
+     lt_ptr data)
 {
   int is_done = 0;
 
@@ -3332,8 +3332,8 @@ lt_dlforeachfile (search_path, func, data)
 }
 
 int
-lt_dlclose (handle)
-     lt_dlhandle handle;
+lt_dlclose (
+     lt_dlhandle handle)
 {
   lt_dlhandle cur, last;
   int errors = 0;
@@ -3397,9 +3397,9 @@ lt_dlclose (handle)
 }
 
 lt_ptr
-lt_dlsym (handle, symbol)
-     lt_dlhandle handle;
-     const char *symbol;
+lt_dlsym (
+     lt_dlhandle handle,
+     const char *symbol)
 {
   int	lensym;
   char	lsym[LT_SYMBOL_LENGTH];
@@ -3508,10 +3508,10 @@ lt_dlerror ()
 }
 
 int
-lt_dlpath_insertdir (ppath, before, dir)
-     char **ppath;
-     char *before;
-     const char *dir;
+lt_dlpath_insertdir (
+     char **ppath,
+     char *before,
+     const char *dir)
 {
   int    errors		= 0;
   char  *canonical	= 0;
@@ -3580,8 +3580,8 @@ lt_dlpath_insertdir (ppath, before, dir)
 }
 
 int
-lt_dladdsearchdir (search_dir)
-     const char *search_dir;
+lt_dladdsearchdir (
+     const char *search_dir)
 {
   int errors = 0;
 
@@ -3597,9 +3597,9 @@ lt_dladdsearchdir (search_dir)
 }
 
 int
-lt_dlinsertsearchdir (before, search_dir)
-     const char *before;
-     const char *search_dir;
+lt_dlinsertsearchdir (
+     const char *before,
+     const char *search_dir)
 {
   int errors = 0;
 
@@ -3631,8 +3631,8 @@ lt_dlinsertsearchdir (before, search_dir)
 }
 
 int
-lt_dlsetsearchpath (search_path)
-     const char *search_path;
+lt_dlsetsearchpath (
+     const char *search_path)
 {
   int   errors	    = 0;
 
@@ -3666,8 +3666,8 @@ lt_dlgetsearchpath ()
 }
 
 int
-lt_dlmakeresident (handle)
-     lt_dlhandle handle;
+lt_dlmakeresident (
+     lt_dlhandle handle)
 {
   int errors = 0;
 
@@ -3685,8 +3685,8 @@ lt_dlmakeresident (handle)
 }
 
 int
-lt_dlisresident	(handle)
-     lt_dlhandle handle;
+lt_dlisresident	(
+     lt_dlhandle handle)
 {
   if (!handle)
     {
@@ -3703,8 +3703,8 @@ lt_dlisresident	(handle)
 /* --- MODULE INFORMATION --- */
 
 const lt_dlinfo *
-lt_dlgetinfo (handle)
-     lt_dlhandle handle;
+lt_dlgetinfo (
+     lt_dlhandle handle)
 {
   if (!handle)
     {
@@ -3716,16 +3716,16 @@ lt_dlgetinfo (handle)
 }
 
 lt_dlhandle
-lt_dlhandle_next (place)
-     lt_dlhandle place;
+lt_dlhandle_next (
+     lt_dlhandle place)
 {
   return place ? place->next : handles;
 }
 
 int
-lt_dlforeach (func, data)
-     int (*func) LT_PARAMS((lt_dlhandle handle, lt_ptr data));
-     lt_ptr data;
+lt_dlforeach (
+     int (*func) LT_PARAMS((lt_dlhandle handle, lt_ptr data)),
+     lt_ptr data)
 {
   int errors = 0;
   lt_dlhandle cur;
@@ -3764,10 +3764,10 @@ lt_dlcaller_register ()
 }
 
 lt_ptr
-lt_dlcaller_set_data (key, handle, data)
-     lt_dlcaller_id key;
-     lt_dlhandle handle;
-     lt_ptr data;
+lt_dlcaller_set_data (
+     lt_dlcaller_id key,
+     lt_dlhandle handle,
+     lt_ptr data)
 {
   int n_elements = 0;
   lt_ptr stale = (lt_ptr) 0;
@@ -3819,9 +3819,9 @@ lt_dlcaller_set_data (key, handle, data)
 }
 
 lt_ptr
-lt_dlcaller_get_data  (key, handle)
-     lt_dlcaller_id key;
-     lt_dlhandle handle;
+lt_dlcaller_get_data  (
+     lt_dlcaller_id key,
+     lt_dlhandle handle)
 {
   lt_ptr result = (lt_ptr) 0;
 
@@ -3853,10 +3853,10 @@ lt_dlcaller_get_data  (key, handle)
 
 
 int
-lt_dlloader_add (place, dlloader, loader_name)
-     lt_dlloader *place;
-     const struct lt_user_dlloader *dlloader;
-     const char *loader_name;
+lt_dlloader_add (
+     lt_dlloader *place,
+     const struct lt_user_dlloader *dlloader,
+     const char *loader_name)
 {
   int errors = 0;
   lt_dlloader *node = 0, *ptr = 0;
@@ -3934,8 +3934,8 @@ lt_dlloader_add (place, dlloader, loader_name)
 }
 
 int
-lt_dlloader_remove (loader_name)
-     const char *loader_name;
+lt_dlloader_remove (
+     const char *loader_name)
 {
   lt_dlloader *place = lt_dlloader_find (loader_name);
   lt_dlhandle handle;
@@ -3995,8 +3995,8 @@ lt_dlloader_remove (loader_name)
 }
 
 lt_dlloader *
-lt_dlloader_next (place)
-     lt_dlloader *place;
+lt_dlloader_next (
+     lt_dlloader *place)
 {
   lt_dlloader *next;
 
@@ -4008,8 +4008,8 @@ lt_dlloader_next (place)
 }
 
 const char *
-lt_dlloader_name (place)
-     lt_dlloader *place;
+lt_dlloader_name (
+     lt_dlloader *place)
 {
   const char *name = 0;
 
@@ -4028,8 +4028,8 @@ lt_dlloader_name (place)
 }
 
 lt_user_data *
-lt_dlloader_data (place)
-     lt_dlloader *place;
+lt_dlloader_data (
+     lt_dlloader *place)
 {
   lt_user_data *data = 0;
 
@@ -4048,8 +4048,8 @@ lt_dlloader_data (place)
 }
 
 lt_dlloader *
-lt_dlloader_find (loader_name)
-     const char *loader_name;
+lt_dlloader_find (
+     const char *loader_name)
 {
   lt_dlloader *place = 0;
 
