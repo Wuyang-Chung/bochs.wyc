@@ -135,12 +135,12 @@
   (BX_CPU_THIS_PTR gen_reg[(index)-4].word.byte.rh))
 #define BX_READ_64BIT_REG(index) (BX_CPU_THIS_PTR gen_reg[index].rrx)
 #define BX_READ_64BIT_REG_HIGH(index) (BX_CPU_THIS_PTR gen_reg[index].dword.hrx)
-#else
+#else // !BX_SUPPORT_X86_64
 #define BX_READ_8BIT_REG(index)  (((index) & 4) ? \
   (BX_CPU_THIS_PTR gen_reg[(index)-4].word.byte.rh) : \
   (BX_CPU_THIS_PTR gen_reg[index].word.byte.rl))
 #define BX_READ_8BIT_REGx(index,ext) BX_READ_8BIT_REG(index)
-#endif
+#endif // BX_SUPPORT_X86_64
 
 #define BX_READ_8BIT_REGL(index) (BX_CPU_THIS_PTR gen_reg[index].word.byte.rl)
 #define BX_READ_16BIT_REG(index) (BX_CPU_THIS_PTR gen_reg[index].word.rx)
@@ -174,7 +174,7 @@
   BX_CPU_THIS_PTR gen_reg[index].dword.hrx = 0; \
 }
 
-#else
+#else // !BX_SUPPORT_X86_64
 
 #define BX_WRITE_8BIT_REG(index, val) {\
   if ((index) & 4) \
@@ -192,7 +192,7 @@
 
 #define BX_CLEAR_64BIT_HIGH(index)
 
-#endif
+#endif //BX_SUPPORT_X86_64
 
 #define CPL       (BX_CPU_THIS_PTR sregs[BX_SEG_REG_CS].selector.rpl)
 
@@ -217,7 +217,7 @@
   BX_CPU_THIS_PTR opmask[index].rrx = val_64; \
 }
 
-#endif
+#endif // BX_SUPPORT_AVX
 
 #endif  // defined(NEED_CPU_REG_SHORTCUTS)
 
@@ -5370,12 +5370,14 @@ BX_CPP_INLINE bx_address BX_CPU_C::get_laddr(unsigned seg, bx_address offset)
     return get_laddr64(seg, offset);
   }
 #endif
+  //wyctodo check offset
   return get_laddr32(seg, (Bit32u) offset);
 }
 
 // same as agen_read32 but also allow access to execute only segments
 BX_CPP_INLINE Bit32u BX_CPU_C::agen_read_execute32(unsigned s, Bit32u offset, unsigned len)
 {
+  //wyctodo check offset
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[s];
 
   if (seg->cache.valid & SegAccessROK4G) {
@@ -5396,6 +5398,7 @@ BX_CPP_INLINE Bit32u BX_CPU_C::agen_read_execute32(unsigned s, Bit32u offset, un
 
 BX_CPP_INLINE Bit32u BX_CPU_C::agen_read32(unsigned s, Bit32u offset, unsigned len)
 {
+  //wyctodo check offset
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[s];
 
   if (seg->cache.valid & SegAccessROK4G) {
@@ -5416,6 +5419,7 @@ BX_CPP_INLINE Bit32u BX_CPU_C::agen_read32(unsigned s, Bit32u offset, unsigned l
 
 BX_CPP_INLINE Bit32u BX_CPU_C::agen_read_aligned32(unsigned s, Bit32u offset, unsigned len)
 {
+  //wyctodo check offset
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[s];
 
   if (seg->cache.valid & SegAccessROK4G) {
@@ -5436,6 +5440,7 @@ BX_CPP_INLINE Bit32u BX_CPU_C::agen_read_aligned32(unsigned s, Bit32u offset, un
 
 BX_CPP_INLINE Bit32u BX_CPU_C::agen_write32(unsigned s, Bit32u offset, unsigned len)
 {
+  //wyctodo check offset
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[s];
 
   if (seg->cache.valid & SegAccessWOK4G) {
@@ -5456,6 +5461,7 @@ BX_CPP_INLINE Bit32u BX_CPU_C::agen_write32(unsigned s, Bit32u offset, unsigned 
 
 BX_CPP_INLINE Bit32u BX_CPU_C::agen_write_aligned32(unsigned s, Bit32u offset, unsigned len)
 {
+  //wyctodo check offset
   bx_segment_reg_t *seg = &BX_CPU_THIS_PTR sregs[s];
 
   if (seg->cache.valid & SegAccessWOK4G) {

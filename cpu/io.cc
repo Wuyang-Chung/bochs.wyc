@@ -39,10 +39,13 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, Bit32u dstOff, Bit16u port, Bit
   Bit8u *hostAddrDst;
   unsigned count;
   bx_address laddrDst;
+  unsigned dstSeg;
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
-  bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[BX_SEG_REG_ES];
+  //wyctodo check dstOff
+  dstSeg = BX_SEG_REG_ES;
+  bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
   }
@@ -52,7 +55,7 @@ Bit32u BX_CPU_C::FastRepINSW(bxInstruction_c *i, Bit32u dstOff, Bit16u port, Bit
     if ((dstOff | 0xfff) > dstSegPtr->cache.u.segment.limit_scaled)
       return 0;
 
-    laddrDst = get_laddr32(BX_SEG_REG_ES, dstOff);
+    laddrDst = get_laddr32(dstSeg, dstOff);
   }
 
   // check that the address is word aligned
@@ -122,6 +125,7 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check srcSeg
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
   if (srcSegPtr->cache.valid & SegAccessROK4G) {
     laddrSrc = srcOff;

@@ -38,6 +38,7 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check srcOff
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
   if (srcSegPtr->cache.valid & SegAccessROK4G) {
     laddrSrc = srcOff;
@@ -55,6 +56,7 @@ Bit32u BX_CPU_C::FastRepMOVSB(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
   // Check that native host access was not vetoed for that page
   if (! hostAddrSrc) return 0;
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
@@ -119,6 +121,7 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check srcOff
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
   if (srcSegPtr->cache.valid & SegAccessROK4G) {
     laddrSrc = srcOff;
@@ -136,6 +139,7 @@ Bit32u BX_CPU_C::FastRepMOVSW(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
   // Check that native host access was not vetoed for that page
   if (! hostAddrSrc) return 0;
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
@@ -203,6 +207,7 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check srcOff
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
   if (srcSegPtr->cache.valid & SegAccessROK4G) {
     laddrSrc = srcOff;
@@ -220,6 +225,7 @@ Bit32u BX_CPU_C::FastRepMOVSD(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
   // Check that native host access was not vetoed for that page
   if (! hostAddrSrc) return 0;
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
@@ -287,6 +293,7 @@ Bit32u BX_CPU_C::FastRepSTOSB(bxInstruction_c *i, unsigned dstSeg, Bit32u dstOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
@@ -346,6 +353,7 @@ Bit32u BX_CPU_C::FastRepSTOSW(bxInstruction_c *i, unsigned dstSeg, Bit32u dstOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
@@ -407,6 +415,7 @@ Bit32u BX_CPU_C::FastRepSTOSD(bxInstruction_c *i, unsigned dstSeg, Bit32u dstOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
+  //wyctodo check dstOff
   bx_segment_reg_t *dstSegPtr = &BX_CPU_THIS_PTR sregs[dstSeg];
   if (dstSegPtr->cache.valid & SegAccessWOK4G) {
     laddrDst = dstOff;
