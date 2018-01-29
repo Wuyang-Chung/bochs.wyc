@@ -261,7 +261,7 @@ void bx_tuntap_pktmover_c::sendpkt(void *buf, unsigned io_len)
   }
 #else
   unsigned int size = write (fd, buf, io_len);
-  if (size != io_len) { //wyc size == -1
+  if (size != io_len) {
     BX_PANIC(("write on tuntap device: %s %d %d", strerror(errno), size, io_len));
   } else {
     BX_DEBUG(("wrote %d bytes on tuntap", io_len));
@@ -283,6 +283,7 @@ void bx_tuntap_pktmover_c::sendpkt(void *buf, unsigned io_len)
 void bx_tuntap_pktmover_c::rx_timer_handler (void *this_ptr)
 {
   bx_tuntap_pktmover_c *class_ptr = (bx_tuntap_pktmover_c *) this_ptr;
+
   class_ptr->rx_timer();
 }
 
@@ -388,10 +389,10 @@ int tun_alloc(char *dev)
     close(fd);
     return err;
   }
-  //wyc strncpy(dev, ifr.ifr_name, IFNAMSIZ);
-  //wyc dev[IFNAMSIZ-1]=0;
+  strncpy(dev, ifr.ifr_name, IFNAMSIZ);
+  dev[IFNAMSIZ-1]=0;
 
-  //ioctl(fd, TUNSETNOCSUM, 1); //wyc TUNSETNOCSUM is not implemented in current Linux kernel
+  ioctl(fd, TUNSETNOCSUM, 1); //wyc TUNSETNOCSUM is not implemented in current Linux kernel
 #endif
 
   return fd;
