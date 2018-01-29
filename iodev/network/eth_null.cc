@@ -68,6 +68,7 @@ public:
 private:
   int rx_timer_index;
   static void rx_timer_handler(void *);
+  void rx_timer ();
   FILE *txlog, *txlog_txt, *rxlog, *rxlog_txt;
 };
 
@@ -142,23 +143,30 @@ void bx_null_pktmover_c::sendpkt(void *buf, unsigned io_len)
 
 void bx_null_pktmover_c::rx_timer_handler (void *this_ptr)
 {
+  bx_null_pktmover_c *class_ptr = (bx_null_pktmover_c *) this_ptr;
+
+  class_ptr->rx_timer();
+}
+
+void bx_null_pktmover_c::rx_timer()
+{
 #if BX_ETH_NULL_LOGGING
   /// hey wait there is no receive data with a NULL ethernet, is there....
 
   int io_len = 0;
   Bit8u buf[1];
-  bx_null_pktmover_c *class_ptr = (bx_null_pktmover_c *) this_ptr;
-  bx_devmodel_c *netdev = class_ptr->netdev;
+  //bx_null_pktmover_c *class_ptr = (bx_null_pktmover_c *) this_ptr;
+  bx_devmodel_c *netdev = this->netdev;
   if (io_len > 0) {
     BX_DEBUG(("receive packet length %u", io_len));
     // dump raw bytes to a file, eventually dump in pcap format so that
     // tcpdump -r FILE can interpret them for us.
-    size_t n = fwrite (buf, io_len, 1, class_ptr->rxlog);
+    size_t n = fwrite (buf, io_len, 1, this->rxlog);
     if (n != 1) BX_ERROR(("fwrite to rxlog failed, io_len = %u", io_len));
     // dump packet in hex into an ascii log file
-    write_pktlog_txt(class_ptr->rxlog_txt, buf, io_len, 1);
+    write_pktlog_txt(this->rxlog_txt, buf, io_len, 1);
     // flush log so that we see the packets as they arrive w/o buffering
-    fflush(class_ptr->rxlog);
+    fflush(this->rxlog);
   }
 #endif
 }

@@ -87,6 +87,7 @@ private:
 
   bx_bool parse_slirp_conf(const char *conf);
   static void rx_timer_handler(void *);
+  void rx_timer(void);
 };
 
 class bx_slirp_locator_c : public eth_locator_c {
@@ -361,6 +362,13 @@ void bx_slirp_pktmover_c::sendpkt(void *buf, unsigned io_len)
 }
 
 void bx_slirp_pktmover_c::rx_timer_handler(void *this_ptr)
+{
+  bx_slirp_pktmover_c *class_ptr = (bx_slirp_pktmover_c *) this_ptr;
+
+  class_ptr->rx_timer();
+}
+
+void bx_slirp_pktmover_c::rx_timer(void)
 {
   Bit32u timeout = 0;
   int ret;
