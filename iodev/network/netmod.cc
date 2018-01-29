@@ -157,6 +157,16 @@ eth_locator_c::create(const char *type, const char *netif,
   return NULL;
 }
 
+#if 0
+void
+eth_pktmover_c::rx_timer_handler(void *this_ptr)
+{
+  eth_pktmover_c *class_ptr = (eth_pktmover_c *) this_ptr;
+
+  class_ptr->rx_timer();
+}
+#endif
+
 #if (BX_NETMOD_TAP==1) || (BX_NETMOD_TUNTAP==1) || (BX_NETMOD_VDE==1)
 
 extern "C" {
@@ -194,7 +204,7 @@ int execute_script(bx_devmodel_c *netdev, const char* scriptname, char* arg1)
   return WEXITSTATUS(status);
 }
 
-#endif
+#endif //#if (BX_NETMOD_TAP==1) || (BX_NETMOD_TUNTAP==1) || (BX_NETMOD_VDE==1)
 
 void write_pktlog_txt(FILE *pktlog_txt, const Bit8u *buf, unsigned len, bx_bool host_to_guest)
 {

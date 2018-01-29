@@ -108,6 +108,8 @@ protected:
   bx_devmodel_c *netdev;
   eth_rx_handler_t  rxh;   // receive callback
   eth_rx_status_t  rxstat; // receive status callback
+  //static void rx_timer_handler(void *);
+  //virtual void rx_timer(void);
 };
 
 
