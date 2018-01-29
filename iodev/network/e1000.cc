@@ -1053,7 +1053,8 @@ void bx_e1000_c::xmit_seg()
 {
   Bit16u len;
   Bit8u *sp;
-  unsigned int frames = BX_E1000_THIS s.tx.tso_frames, css, sofar, n;
+  unsigned int css, sofar, n;
+  unsigned int frames = BX_E1000_THIS s.tx.tso_frames;
   e1000_tx *tp = &BX_E1000_THIS s.tx;
 
   if (tp->tse && tp->cptse) {

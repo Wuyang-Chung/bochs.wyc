@@ -110,14 +110,14 @@ BX_CPU_C::write_virtual_zmmword_aligned_32(unsigned s, Bit32u offset, const BxPa
 BX_CPU_C::tickle_read_virtual_32(unsigned s, Bit32u offset)
 {
   Bit32u laddr = agen_read32(s, offset, 1);
-  tickle_read_linear(s, laddr);
+  tickle_read_linear(s, laddr); //wyc 's' is used only when exeception happened
 }
 
   BX_CPP_INLINE Bit8u BX_CPP_AttrRegparmN(2)
 BX_CPU_C::read_virtual_byte_32(unsigned s, Bit32u offset)
 {
   Bit32u laddr = agen_read32(s, offset, 1);
-  return read_linear_byte(s, laddr);
+  return read_linear_byte(s, laddr); //wyc 's' is used only when exeception happened
 }
 
   BX_CPP_INLINE Bit16u BX_CPP_AttrRegparmN(2)
@@ -281,14 +281,14 @@ BX_CPU_C::write_virtual_zmmword_aligned(unsigned s, bx_address offset, const BxP
 BX_CPU_C::tickle_read_virtual(unsigned s, bx_address offset)
 {
   bx_address laddr = agen_read(s, offset, 1);
-  tickle_read_linear(s, laddr);
+  tickle_read_linear(s, laddr); //wyc 's' is used only when exeception happened
 }
 
   BX_CPP_INLINE Bit8u BX_CPP_AttrRegparmN(2)
 BX_CPU_C::read_virtual_byte(unsigned s, bx_address offset)
 {
   bx_address laddr = agen_read(s, offset, 1);
-  return read_linear_byte(s, laddr);
+  return read_linear_byte(s, laddr); //wyc 's' is used only when exeception happened
 }
 
   BX_CPP_INLINE Bit16u BX_CPP_AttrRegparmN(2)

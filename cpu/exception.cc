@@ -894,10 +894,10 @@ void BX_CPU_C::exception(unsigned vector, Bit16u error_code)
         shutdown();
       }
       longjmp(BX_CPU_THIS_PTR jmp_buf_env, 1); // go back to main decode loop
-    }
+    } // if last_exception_type == BX_ET_DOUBLE_FAULT
 
     if (vector != BX_DB_EXCEPTION) BX_CPU_THIS_PTR assert_RF();
-  }
+  } // if exception_class == BX_EXCEPTION_CLASS_FAULT
 
   if (vector == BX_DB_EXCEPTION) {
     // Commit debug events to DR6: preserve DR5.BS and DR6.BD values,

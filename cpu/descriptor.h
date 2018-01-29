@@ -54,10 +54,10 @@ typedef struct
 {
 
 #define SegValidCache  (0x01)
-#define SegAccessROK   (0x02)
-#define SegAccessWOK   (0x04)
-#define SegAccessROK4G (0x08)
-#define SegAccessWOK4G (0x10)
+#define SegAccessROK   (0x02)	// OK for succeeding reads
+#define SegAccessWOK   (0x04)	// OK for succeeding writes
+#define SegAccessROK4G (0x08)	// 4G segments do not need to do limit check
+#define SegAccessWOK4G (0x10)	// 4G segments do not need to do limit check
   unsigned valid;        // Holds above values, Or'd together. Used to
                          // hold only 0 or 1 once.
 
