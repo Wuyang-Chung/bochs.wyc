@@ -107,7 +107,7 @@ void iofunctions::remove_logfn(logfunc_t *fn)
   int i = 0;
   while ((i < n_logfn) && (fn != logfn_list[i])) {
     i++;
-  };
+  }
   if (i < n_logfn) {
     for (int j=i; j<n_logfn-1; j++) {
       logfn_list[j] = logfn_list[j+1];

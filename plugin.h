@@ -137,10 +137,10 @@ extern "C" {
 #endif // #if BX_PLUGINS
 
 ///////// Common device macros
-#define DEV_init_devices() {bx_devices.init(BX_MEM(0)); }
-#define DEV_reset_devices(type) {bx_devices.reset(type); }
-#define DEV_register_state() {bx_devices.register_state(); }
-#define DEV_after_restore_state() {bx_devices.after_restore_state(); }
+#define DEV_init_devices() bx_devices.init(BX_MEM(0))
+#define DEV_reset_devices(type) bx_devices.reset(type)
+#define DEV_register_state() bx_devices.register_state()
+#define DEV_after_restore_state() bx_devices.after_restore_state()
 #define DEV_register_timer(a,b,c,d,e,f) bx_pc_system.register_timer(a,b,c,d,e,f)
 
 ///////// Removable devices macros
