@@ -371,7 +371,7 @@ public:
 // <TAG-CLASS-INSTRUCTION-END>
 
 enum {
-#define bx_define_opcode(a, b, c, d, s1, s2, s3, s4, e) a,
+#define bx_define_opcode(n, e1, e2, f, s1, s2, s3, s4, flag) n,
 #include "ia_opcodes.h"
    BX_IA_LAST
 };

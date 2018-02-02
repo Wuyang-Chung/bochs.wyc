@@ -1195,7 +1195,7 @@ static unsigned sreg_mod1or2_base32[8] = {
 
 // table of all Bochs opcodes
 bxIAOpcodeTable BxOpcodesTable[] = {
-#define bx_define_opcode(a, b, c, d, s1, s2, s3, s4, e) { b, c, { s1, s2, s3, s4 }, e },
+#define bx_define_opcode(n, e1, e2, f, s1, s2, s3, s4, flag) { e1, e2, { s1, s2, s3, s4 }, flag },
 #include "ia_opcodes.h"
 };
 #undef  bx_define_opcode
@@ -2477,12 +2477,23 @@ int decoder_simple32(const Bit8u *iptr, unsigned &remain, bxInstruction_c *i, un
   return ia_opcode;
 }
 
-int decoder_ud32(const Bit8u *iptr, unsigned &remain, bxInstruction_c *i, unsigned b1, unsigned sse_prefix, const BxOpcodeInfo_t *opcode_table)
+int decoder_ud32(
+  const Bit8u *iptr,
+  unsigned &remain,
+  bxInstruction_c *i,
+  unsigned b1,
+  unsigned sse_prefix,
+  const BxOpcodeInfo_t *opcode_table)
 {
   return BX_IA_ERROR;
 }
 
-int fetchDecode32(const Bit8u *iptr, Bit32u fetchModeMask, bx_bool handle_lock_cr0, bxInstruction_c *i, unsigned remainingInPage)
+int fetchDecode32(
+  const Bit8u *iptr,
+  Bit32u fetchModeMask,
+  bx_bool handle_lock_cr0,
+  bxInstruction_c *i,
+  unsigned remainingInPage)
 {
   if (remainingInPage > 15) remainingInPage = 15;
 
@@ -2797,7 +2808,7 @@ const char *get_bx_opcode_name(Bit16u ia_opcode)
 {
   static const char* BxOpcodeNamesTable[BX_IA_LAST] =
   {
-#define bx_define_opcode(a, b, c, d, s1, s2, s3, s4, e) #a,
+#define bx_define_opcode(n, e1, e2, f, s1, s2, s3, s4, flag) #n,
 #include "ia_opcodes.h"
   };
 #undef  bx_define_opcode
@@ -2809,7 +2820,7 @@ void BX_CPU_C::init_FetchDecodeTables(void)
 {
   static Bit8u BxOpcodeFeatures[BX_IA_LAST] =
   {
-#define bx_define_opcode(a, b, c, d, s1, s2, s3, s4, e) d,
+#define bx_define_opcode(n, e1, e2, f, s1, s2, s3, s4, flag) f,
 #include "ia_opcodes.h"
   };
 #undef  bx_define_opcode
@@ -2849,7 +2860,7 @@ void BX_CPU_C::init_FetchDecodeTables(void)
       // won't allow this new #UD opcode to check prepare_SSE and similar
       BxOpcodesTable[n].src[3] = 0;
     }
-  }
+  } // for
 
   // handle special case - BSF/BSR vs TZCNT/LZCNT
   if (! BX_CPUID_SUPPORT_ISA_EXTENSION(BX_ISA_LZCNT)) {
