@@ -818,40 +818,36 @@ typedef struct {
 #else  // #if BX_SUPPORT_X86_64
 
 #ifdef BX_BIG_ENDIAN
-typedef struct {
-  union {
-    struct {
-      Bit32u erx;
-    } dword;
-    struct {
-      Bit16u word_filler;
-      union {
-        Bit16u rx;
-        struct {
-          Bit8u rh;
-          Bit8u rl;
-        } byte;
-      };
-    } word;
-  };
+typedef union {
+  struct {
+    Bit32u erx;
+  } dword;
+  struct {
+    Bit16u word_filler;
+    union {
+      Bit16u rx;
+      struct {
+        Bit8u rh;
+        Bit8u rl;
+      } byte;
+    };
+  } word;
 } bx_gen_reg_t;
 #else
-typedef struct {
-  union {
-    struct {
-      Bit32u erx;
-    } dword;
-    struct {
-      union {
-        Bit16u rx;
-        struct {
-          Bit8u rl;
-          Bit8u rh;
-        } byte;
-      };
-      Bit16u word_filler;
-    } word;
-  };
+typedef union {
+  struct {
+    Bit32u erx;
+  } dword;
+  struct {
+    union {
+      Bit16u rx;
+      struct {
+        Bit8u rl;
+        Bit8u rh;
+      } byte;
+    };
+    Bit16u word_filler;
+  } word;
 } bx_gen_reg_t;
 #endif
 
@@ -1050,13 +1046,11 @@ public: // for now...
   // vtmp: temp register
 #if BX_SUPPORT_EVEX
   bx_zmm_reg_t vmm[BX_XMM_REGISTERS+1] BX_CPP_AlignN(64);
-#else
-#if BX_SUPPORT_AVX
+#elif BX_SUPPORT_AVX
   bx_ymm_reg_t vmm[BX_XMM_REGISTERS+1] BX_CPP_AlignN(32);
 #else
   bx_xmm_reg_t vmm[BX_XMM_REGISTERS+1] BX_CPP_AlignN(16);
-#endif
-#endif
+#endif // BX_SUPPORT_EVEX
 
   bx_mxcsr_t mxcsr;
   Bit32u mxcsr_mask;
@@ -1065,7 +1059,7 @@ public: // for now...
   bx_gen_reg_t opmask[8];
 #endif
 
-#endif
+#endif // BX_CPU_LEVEL >= 6
 
 #if BX_SUPPORT_MONITOR_MWAIT
   monitor_addr_t monitor;
@@ -1101,7 +1095,7 @@ public: // for now...
   VMCS_CACHE vmcs;
   VMX_CAP vmx_cap;
   VMCS_Mapping *vmcs_map;
-#endif
+#endif // BX_SUPPORT_VMX
 
 #if BX_SUPPORT_SVM
   bx_bool in_svm_guest;
@@ -1116,11 +1110,11 @@ public: // for now...
 // make SVM integration easier
 #define SVM_GIF (BX_CPU_THIS_PTR svm_gif)
 
-#else
+#else // !BX_SUPPORT_SVM
 
 #define SVM_GIF (1)
 
-#endif
+#endif // BX_SUPPORT_SVM
 
 #if BX_SUPPORT_VMX || BX_SUPPORT_SVM
   bx_bool in_event;
@@ -1218,7 +1212,7 @@ public: // for now...
   unsigned opmask_ok;
   unsigned evex_ok;
 #endif
-#endif
+#endif // BX_CPU_LEVEL >= 6
 
   // for exceptions
   jmp_buf jmp_buf_env;
@@ -1283,9 +1277,9 @@ public: // for now...
   BX_CPU_THIS_PTR far_branch.prev_rip = PREV_RIP; \
 }
 
-#else
+#else // !BX_INSTRUMENTATION
 #define BX_INSTR_FAR_BRANCH_ORIGIN()
-#endif
+#endif // BX_INSTRUMENTATION
 
   // for paging
   struct {

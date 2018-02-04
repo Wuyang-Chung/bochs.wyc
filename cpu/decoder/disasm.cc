@@ -26,9 +26,19 @@
 
 #include "fetchdecode.h"
 
-extern int fetchDecode32(const Bit8u *fetchPtr, Bit32u fetchModeMask, bx_bool handle_lock_cr0, bxInstruction_c *i, unsigned remainingInPage);
+extern int fetchDecode32(
+  const Bit8u *fetchPtr,
+  Bit32u fetchModeMask,
+  bx_bool handle_lock_cr0,
+  bxInstruction_c *i,
+  unsigned remainingInPage);
 #if BX_SUPPORT_X86_64
-extern int fetchDecode64(const Bit8u *fetchPtr, Bit32u fetchModeMask, bx_bool handle_lock_cr0, bxInstruction_c *i, unsigned remainingInPage);
+extern int fetchDecode64(
+  const Bit8u *fetchPtr,
+  Bit32u fetchModeMask,
+  bx_bool handle_lock_cr0,
+  bxInstruction_c *i,
+  unsigned remainingInPage);
 #endif
 
 // table of all Bochs opcodes

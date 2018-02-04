@@ -125,7 +125,7 @@ Bit32u BX_CPU_C::FastRepOUTSW(bxInstruction_c *i, unsigned srcSeg, Bit32u srcOff
 
   BX_ASSERT(BX_CPU_THIS_PTR cpu_mode != BX_MODE_LONG_64);
 
-  //wyctodo check srcSeg
+  //wyctodo check srcOff
   bx_segment_reg_t *srcSegPtr = &BX_CPU_THIS_PTR sregs[srcSeg];
   if (srcSegPtr->cache.valid & SegAccessROK4G) {
     laddrSrc = srcOff;

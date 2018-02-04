@@ -87,8 +87,8 @@ void BX_CPU_C::cpu_loop(void)
       if (BX_CPU_THIS_PTR async_event) break;
 
       i = getICacheEntry()->i;
-    }
-#else // BX_SUPPORT_HANDLERS_CHAINING_SPEEDUPS == 0
+    } // for(;;)
+#else // !BX_SUPPORT_HANDLERS_CHAINING_SPEEDUPS
 
     bxInstruction_c *last = i + (entry->tlen);
 
@@ -121,7 +121,7 @@ void BX_CPU_C::cpu_loop(void)
         i = entry->i;
         last = i + (entry->tlen);
       }
-    }
+    } // for(;;)
 #endif
 
     // clear stop trace magic indication that probably was set by repeat or branch32/64

@@ -672,7 +672,7 @@ int bx_init_main(int argc, char *argv[])
 #endif
           fprintf(stderr, "\n");
           arg++;
-        }
+        } // if "features"
 #if BX_CPU_LEVEL > 4
         else if (!strcmp("cpu", argv[arg+1])) {
           int i = 0;
@@ -682,13 +682,14 @@ int bx_init_main(int argc, char *argv[])
           } while (i++ < SIM->get_param_enum(BXPN_CPU_MODEL)->get_max());
           fprintf(stderr, "\n");
           arg++;
-        }
+        } // else if "cpu"
 #endif
-      } else {
+      } // if ((arg+1) < argc)
+      else {
         print_usage();
       }
       SIM->quit_sim(0);
-    }
+    } // if "--help"
     else if (!strcmp("-n", argv[arg])) {
       load_rcfile = 0;
     }
@@ -774,7 +775,7 @@ int bx_init_main(int argc, char *argv[])
       break;
     }
     arg++;
-  }
+  } // while (arg < argc)
 #if BX_WITH_CARBON
   if(!getenv("BXSHARE"))
   {
@@ -849,7 +850,7 @@ int bx_init_main(int argc, char *argv[])
         BX_PLUGIN_PATH));
     setenv("LTDL_LIBRARY_PATH", BX_PLUGIN_PATH, 1);
   }
-#endif
+#endif // BX_WITH_CARBON
 #endif  /* if BX_PLUGINS */
 #if BX_HAVE_GETENV && BX_HAVE_SETENV
   if (getenv("BXSHARE") != NULL) {
