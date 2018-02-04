@@ -28,10 +28,11 @@ case $which_config in
     #######################################################################
     ./configure \
                 --enable-sb16 \
+                --enable-es1370 \
                 --enable-ne2000 \
+                --enable-e1000 \
                 --enable-all-optimizations \
                 --enable-cpu-level=6 \
-                --enable-x86-64 \
                 --enable-vmx=2 \
                 --enable-pci \
                 --enable-clgd54xx \
@@ -41,9 +42,8 @@ case $which_config in
                 --enable-usb-ehci \
                 --enable-usb-xhci \
                 --enable-busmouse \
-                --enable-es1370 \
-                --enable-e1000 \
                 --enable-show-ips \
+                --enable-x86-64 \
                 ${CONFIGURE_ARGS}
     ;;
 
@@ -55,7 +55,6 @@ case $which_config in
     ./configure \
                 --enable-sb16 \
                 --enable-es1370 \
-                --enable-ne2000 \
                 --enable-e1000 \
                 --enable-all-optimizations \
                 --enable-cpu-level=6 \
@@ -65,11 +64,10 @@ case $which_config in
                 --enable-usb-ohci \
                 --enable-usb-ehci \
                 --enable-usb-xhci \
-                --enable-busmouse \
                 --enable-plugins \
                 --enable-show-ips \
-                --enable-debugger \
                 --with-all-libs \
+                --disable-a20-pin
                 ${CONFIGURE_ARGS}
     ;;
 
