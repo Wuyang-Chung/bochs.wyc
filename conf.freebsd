@@ -27,24 +27,26 @@ case $which_config in
     # Include a few standard options, speed optimizations, X11 only.
     #######################################################################
     ./configure \
-                --enable-sb16 \
-                --enable-es1370 \
-                --enable-ne2000 \
-                --enable-e1000 \
-                --enable-all-optimizations \
-                --enable-cpu-level=6 \
-                --enable-vmx=2 \
-                --enable-pci \
-                --enable-clgd54xx \
-                --enable-voodoo \
-                --enable-usb \
-                --enable-usb-ohci \
-                --enable-usb-ehci \
-                --enable-usb-xhci \
-                --enable-busmouse \
-                --enable-show-ips \
-                --enable-x86-64 \
-                ${CONFIGURE_ARGS}
+		--enable-sb16 \
+		--enable-es1370 \
+		--enable-ne2000 \
+		--enable-e1000 \
+		--enable-all-optimizations \
+		--enable-cpu-level=6 \
+		--enable-vmx=2 \
+		--enable-pci \
+		--enable-clgd54xx \
+		--enable-voodoo \
+		--enable-usb \
+		--enable-usb-ohci \
+		--enable-usb-ehci \
+		--enable-usb-xhci \
+		--enable-busmouse \
+		--enable-show-ips \
+		--enable-x86-64 \
+		--enable-debugger \
+		--enable-disasm \
+		${CONFIGURE_ARGS}
     ;;
 
   plugins)
@@ -53,22 +55,22 @@ case $which_config in
     # Include plugins, every possible gui.
     #######################################################################
     ./configure \
-                --enable-sb16 \
-                --enable-es1370 \
-                --enable-e1000 \
-                --enable-all-optimizations \
-                --enable-cpu-level=6 \
-                --enable-pci \
-                --enable-clgd54xx \
-                --enable-usb \
-                --enable-usb-ohci \
-                --enable-usb-ehci \
-                --enable-usb-xhci \
-                --enable-plugins \
-                --enable-show-ips \
-                --with-all-libs \
-                --disable-a20-pin
-                ${CONFIGURE_ARGS}
+		--enable-e1000 \
+		--enable-all-optimizations \
+		--enable-cpu-level=6 \
+		--enable-pci \
+		--enable-clgd54xx \
+		--enable-usb \
+		--enable-usb-ohci \
+		--enable-usb-ehci \
+		--enable-usb-xhci \
+		--enable-plugins \
+		--enable-show-ips \
+		--with-all-libs \
+		--disable-a20-pin \
+		--enable-debugger \
+		--enable-disasm \
+		${CONFIGURE_ARGS}
     ;;
 
 esac
