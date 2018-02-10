@@ -757,7 +757,7 @@ void bx_gui_c::save_restore_handler(void)
     BX_GUI_THIS set_display_mode(DISP_MODE_CONFIG);
     sr_path[0] = 0;
     ret = SIM->ask_filename(sr_path, sizeof(sr_path),
-                            "Save Bochs state to folder...", "none",
+                            "Save Bochs state to folder...", "snapshot", //wyc
                             bx_param_string_c::SELECT_FOLDER_DLG);
     if ((ret >= 0) && (strcmp(sr_path, "none"))) {
       if (SIM->save_state(sr_path)) {
