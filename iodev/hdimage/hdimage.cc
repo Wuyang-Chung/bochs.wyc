@@ -328,7 +328,7 @@ Bit16u fat_datetime(time_t time, int return_time)
     return htod16((t->tm_sec/2) | (t->tm_min<<5) | (t->tm_hour<<11));
   return htod16((t->tm_mday) | ((t->tm_mon+1)<<5) | ((t->tm_year-80)<<9));
 }
-#else
+#else // WIN32
 Bit16u fat_datetime(FILETIME time, int return_time)
 {
   SYSTEMTIME gmtsystime, systime;
@@ -476,7 +476,7 @@ bx_bool hdimage_copy_file(const char *src, const char *dst)
       break;
     }
     offset += size;
-  };
+  }
   if (nread < 0) {
     ret = 0;
   }
@@ -1584,12 +1584,12 @@ int redolog_t::create(int filedes, const char* type, Bit64u size)
 
   return 0;
 }
-
+#if 0
 int redolog_t::open(const char* filename, const char *type)
 {
   return open(filename, type, O_RDWR);
 }
-
+#endif
 int redolog_t::open(const char* filename, const char *type, int flags)
 {
   Bit64u imgsize = 0;
@@ -2127,7 +2127,7 @@ undoable_image_t::~undoable_image_t()
 
 int undoable_image_t::open(const char* pathname, int flags)
 {
-  UNUSED(flags);
+  UNUSED(flags); // silence the compiler for unused parameter
   if (access(pathname, F_OK) < 0) {
     BX_PANIC(("r/o disk image doesn't exist"));
   }

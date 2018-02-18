@@ -2642,7 +2642,7 @@ bx_hard_drive_c::increment_address(Bit8u channel, Bit64s *sector)
       controller->sector_no = (Bit8u)((logical_sector) & 0xff);
     }
     *sector = logical_sector;
-  } else {
+  } else { // !lba_mode
     controller->sector_no++;
     if (controller->sector_no > BX_SELECTED_DRIVE(channel).hdimage->spt) {
       controller->sector_no = 1;
@@ -2655,7 +2655,7 @@ bx_hard_drive_c::increment_address(Bit8u channel, Bit64s *sector)
         }
       }
     }
-  }
+  } // lba_mode
 }
 
 void bx_hard_drive_c::identify_ATAPI_drive(Bit8u channel)
