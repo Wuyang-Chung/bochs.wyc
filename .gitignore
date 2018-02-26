@@ -30,6 +30,9 @@ Makefile
 /build/macosx/Info.plist
 /build/win32/nsis/bochs.nsi
 
+# my files
+/conf.freebsd
+
 # folders to ignore
 .libs/
 
